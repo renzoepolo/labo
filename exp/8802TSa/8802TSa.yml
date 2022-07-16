@@ -10,7 +10,7 @@ experiment:
   name: "exp"
   type: "TrainingStrategy"
   tags: [ "Trimestres" ]
-  requires: [ "8801FEa" ]
+  requires: [ "8802FEa" ]
 
 
 param:

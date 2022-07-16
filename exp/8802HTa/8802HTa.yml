@@ -12,7 +12,7 @@ experiment:
   name: "exp"
   type: "HyperparameterTuning"
   tags: [ "austero" ]
-  requires:   [ "8801TSa" ]
+  requires:   [ "8802TSa" ]
 
 
 param:
