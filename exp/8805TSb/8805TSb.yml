@@ -36,7 +36,7 @@ param:
 
   #donde valido
   validate:
-    periodos: [ 202011 ]
+    periodos: [ 202010 ]
     rango:
       desde:  
       hasta:  
