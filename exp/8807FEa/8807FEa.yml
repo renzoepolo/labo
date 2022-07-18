@@ -59,7 +59,7 @@ param:
     num.trees:        50
     max.depth:         6
     min.node.size:   500
-    mtry:             50
+    mtry:             13
 
 
   files:
