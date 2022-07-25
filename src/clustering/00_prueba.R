@@ -4,9 +4,11 @@ library(ggplot2) # needs no introduction
 library(ggfortify) # super-helpful for plotting non-"standard" stats objects
 library(ggbiplot)
 
-setwd("C:/Users/Usuario/Documents/Maestria en Mineria de datos - UTN/8 - Aplicaciones de MDD a la Economía y Finanzas/DescargaBucket/ST7620")
+# Directorio local de trabajo
+setwd("C:/Users/Usuario/Documents/Maestria en Mineria de datos - UTN/8 - Aplicaciones de MDD a la Economía y Finanzas/labo/exp/ST7620")
 dataset <- read.table("cluster_de_bajas.txt", header = TRUE, sep = "\t", dec = ".")
 
+# Listado de campos a filtrar
 campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_trx",
                      "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
                      "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_trx", "Visa_msaldopesos",
@@ -17,9 +19,29 @@ campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_v
                      "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
                      "mpagomiscuentas", "cluster2")
 
-dataset2 <- dataset[-876,campos_buenos]
+# Filtrar dataset
+dataset2 <- dataset[,campos_buenos]
 
-pca <- prcomp(dataset2[,-40], scale=TRUE) #principle component analysis
+# PCA. En Homenaje a Debora Chan
+data.pc = prcomp(dataset2[,-40], center = T, scale. = T) #Quito columna cluster2 del analisis
+summary(data.pc)
+
+# Grafico las PC de a pares para ver agrupamiento de variables. Lo hago con las primeras 4
+# Luego busco las variables con máximos valores absolutos e interpreto los resultados.
+# La explicación para Miranda utiliza las variables originales
+
+# Grafico sin observaciones
+ggbiplot(data.pc, choices = c(2,3), alpha = 0, var.scale = 0, varname.size=4, varname.abbrev=F) + xlim(-0.75, 0.75) + ylim(-0.75, 0.75)
+
+# Grafico con observaciones
+ggbiplot(data.pc, choices = c(2,3), alpha = 0, var.scale = 0, varname.size=4, varname.abbrev=F) + xlim(-0.75, 0.75) + ylim(-0.75, 0.75) + geom_point(color=dataset2$cluster2)
+
+
+
+
+
+
+
 pca <- pca$x
 pca_data <- mutate(fortify(pca))
 #We want to examine the cluster memberships for each #observation - see last column
@@ -39,7 +61,7 @@ biplot(x, y, var.axes = TRUE, col, cex = rep(par("cex"), 2),
 ###############################
 data.pc = prcomp(dataset2[,-40], center = T, scale. = T)
 
-ggbiplot(data.pc, choices = c(1,2), alpha = 0, var.scale = 0, varname.size=4, varname.abbrev=F) + xlim(-0.75, 0.75) + ylim(-0.75, 0.75)# + geom_point(color=dataset2$cluster2)
+ggbiplot(data.pc, choices = c(2,3), alpha = 0, var.scale = 0, varname.size=4, varname.abbrev=F) + xlim(-0.75, 0.75) + ylim(-0.75, 0.75) + geom_point(color=dataset2$cluster2)
 
 PC <- data.pc$rotation[,1]
 
