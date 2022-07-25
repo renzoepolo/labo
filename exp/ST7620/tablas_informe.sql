@@ -34,6 +34,7 @@ order by cluster2;
 -- Analisis temporal
 select 	cluster2,
 		pos,
+		string_agg(distinct clase_ternaria, ','), 
 		avg(mcuentas_saldo) mcuentas_saldo,
 		avg(ctrx_quarter) ctrx_quarter,
 		avg(mpayroll) mpayroll,
@@ -41,3 +42,14 @@ select 	cluster2,
 from	cluster_de_bajas_12meses
 group by	pos,cluster2
 order by	cluster2,pos;
+
+
+select foto_mes, count(*)
+from public.cluster_de_bajas
+group by foto_mes;
+
+select foto_date + interval '1 month', count(*)
+from public.cluster_de_bajas_12meses
+where clase_ternaria = 'BAJA+1' and foto_date > '2020-03-01'
+group by foto_date
+order by foto_date;
